@@ -25,3 +25,57 @@ model User {
 
   @@map("users")
 }
+// category e product tem uma relação de 1 para n, uma categoria pode ter varios produtos atrelados
+model Category{
+  id String @id @default(uuid())
+  name String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  products Product[]
+
+  @@map("categories")
+}
+model Product{
+  id String @id @default(uuid())
+ 
+  price String
+  description String
+  banner String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  category Category @relation(fields: [category_id], references: [id])
+  category_id String
+
+  items Item[]
+
+  @@map("products")
+}
+
+model Order{
+  id String @id @default(uuid())
+  name String? //torna o campo opcional
+  table Int
+  status Boolean @default(false)
+  draft Boolean @default(true)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+  items Item[]
+
+  @@map("ordes")
+}
+
+model Item{
+  id String @id @default(uuid())
+  amount Int
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  order Order @relation(fields: [order_id], references: [id])
+  order_id String
+
+  product Product @relation(fields: [product_id], references: [id])
+  product_id String
+  @@map("items")
+}
