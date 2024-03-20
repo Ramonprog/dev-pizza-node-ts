@@ -1,35 +1,25 @@
-import prismaClient from "../../prisma";
+import { UserRepository } from "../../repository/user/UserRepository";
 import { UserSchema } from "../../schemas/UserSchema";
+import { User } from "@prisma/client";
 
-interface IUserRequestDTO {
-  name: string;
-  email: string;
-  password: string;
-}
-
+type UserInput = Omit<User, "created_at" | "updated_at" | "id">;
 class CreateUserService {
-  async execute({ name, email, password }: IUserRequestDTO) {
+  private readonly _userRepository;
+
+  constructor() {
+    this._userRepository = new UserRepository();
+  }
+  async execute({ name, email, password }: UserInput) {
     try {
       const validatedUser = UserSchema.parse({ name, email, password });
 
-      const userAlreadyExists = await prismaClient.user.findFirst({
-        where: {
-          email: email,
-        },
-      });
+      const userAlreadyExists = await this._userRepository.findByEmail(email);
 
       if (userAlreadyExists) {
         throw new Error("User already exists");
       }
 
-      const user = await prismaClient.user.create({
-        data: validatedUser,
-        select: {
-          id: true,
-          name: true,
-          email: true,
-        },
-      });
+      const user = await this._userRepository.create(validatedUser);
 
       return { user };
     } catch (error) {
