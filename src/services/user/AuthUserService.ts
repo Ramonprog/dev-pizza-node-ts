@@ -2,6 +2,7 @@ import { compare } from "bcryptjs";
 import { IAuthUserDTO } from "../../DTO/AuthUserDTO";
 import { AuthRepository } from "../../repository/user/AuthRepository";
 import { AuthSchema } from "../../schemas/UserSchema";
+import { sign } from "jsonwebtoken";
 
 class AuthUserService {
   private readonly _AuthRepository;
@@ -23,9 +24,24 @@ class AuthUserService {
       throw new Error("Email or password incorrect");
     }
 
-    //gerar um jwt e devolver os dados do usuario logado
+    const token = sign(
+      {
+        name: findUser.name,
+        email: findUser.email,
+      },
+      process.env.JWT_SECRET,
+      {
+        subject: findUser.id,
+        expiresIn: "30d",
+      }
+    );
 
-    return findUser;
+    return {
+      id: findUser.id,
+      email: findUser.email,
+      name: findUser.name,
+      token,
+    };
   }
 }
 

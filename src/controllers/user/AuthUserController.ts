@@ -9,6 +9,7 @@ class AuthUserController {
       email,
       password,
     });
+
     return res.json(authService);
   }
 }
