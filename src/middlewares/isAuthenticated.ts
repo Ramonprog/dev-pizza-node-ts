@@ -19,7 +19,7 @@ export function isAuthenticate(
 
   try {
     const { sub } = verify(token, process.env.JWT_SECRET) as IPayload;
-
+    req.user_id = sub;
     next();
   } catch (error) {
     return res.status(401).end();
