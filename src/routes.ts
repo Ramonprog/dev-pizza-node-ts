@@ -1,4 +1,8 @@
 import { Router } from "express";
+//multer
+import multer from "multer";
+import uploadConfig from "./config/multer";
+//routes
 import { CreateUserController } from "./controllers/user/CreateUserController";
 import { AuthUserController } from "./controllers/user/AuthUserController";
 import { DetailUserController } from "./controllers/user/DetailUserController";
@@ -8,6 +12,8 @@ import { ListCategoryController } from "./controllers/category/ListCategoryContr
 import { CreateProductController } from "./controllers/products/CreateProductController";
 
 const router = Router();
+
+const upload = multer(uploadConfig.upload("./temp"));
 // == user routes ==
 router.post("/users", new CreateUserController().handle);
 router.post("/session", new AuthUserController().handle);
@@ -23,6 +29,10 @@ router.get("/category", new ListCategoryController().handle);
 
 // == product routes ==
 
-router.post("/product", new CreateProductController().handle);
+router.post(
+  "/product",
+  upload.single("file"),
+  new CreateProductController().handle
+);
 
 export { router };
