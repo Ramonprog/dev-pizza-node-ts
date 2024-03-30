@@ -23,7 +23,18 @@ class CreateProductService {
       banner,
       category_id,
     });
-    return { ok: true };
+
+    if (!validateSchema) throw new Error("Preencha todos os campos");
+
+    const product = await this._createProductRepository.createProduct({
+      banner,
+      category_id,
+      description,
+      name,
+      price,
+    });
+
+    return product;
   }
 }
 

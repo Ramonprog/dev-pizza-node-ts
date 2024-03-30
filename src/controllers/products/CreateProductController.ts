@@ -8,19 +8,19 @@ class CreateProductController {
     }
 
     const { name, price, description, category_id } = req.body;
-    const { filename } = req.file;
+    const { filename: banner, originalname } = req.file;
 
     const createProductService = new CreateProductService();
 
     const product = await createProductService.execute({
-      banner: "",
+      banner,
       category_id,
       description,
       name,
       price,
     });
 
-    return res.json(product);
+    return res.status(201).json(product);
   }
 }
 
