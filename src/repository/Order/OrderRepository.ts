@@ -67,6 +67,22 @@ class OrderRepository {
 
     return orderRequest;
   }
+
+  async openOrdes() {
+    const orders = await prismaClient.order.findMany({
+      where: {
+        draft: false,
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+      include: {
+        items: true,
+      },
+    });
+
+    return orders;
+  }
 }
 
 export { OrderRepository };
