@@ -1,12 +1,12 @@
 import { ICreateOrderDTO } from "../../DTO/OrderDTO";
-import { CreateOrderRepository } from "../../repository/Order/CreateOrderRepository";
+import { OrderRepository } from "../../repository/Order/OrderRepository";
 import { CreateOrderSchema } from "../../schemas/OrderSchema";
 
 class CreateOrderService {
-  private readonly _CreateOrderRepository: CreateOrderRepository;
+  private readonly _CreateOrderRepository: OrderRepository;
 
   constructor() {
-    this._CreateOrderRepository = new CreateOrderRepository();
+    this._CreateOrderRepository = new OrderRepository();
   }
 
   async execute({ name, table }: ICreateOrderDTO) {
