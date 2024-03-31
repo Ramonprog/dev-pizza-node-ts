@@ -10,6 +10,7 @@ import { isAuthenticate } from "./middlewares/isAuthenticated";
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController";
 import { ListCategoryController } from "./controllers/category/ListCategoryController";
 import { CreateProductController } from "./controllers/products/CreateProductController";
+import { ListProductByCategory } from "./controllers/products/ListProductByCategoryController";
 
 const router = Router();
 
@@ -35,4 +36,5 @@ router.post(
   new CreateProductController().handle
 );
 
+router.get("/products", new ListProductByCategory().handle);
 export { router };
