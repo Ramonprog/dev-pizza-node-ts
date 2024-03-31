@@ -22,6 +22,16 @@ class OrderRepository {
 
     return order;
   }
+
+  async findByTable(table: number) {
+    const order = await prismaClient.order.findFirst({
+      where: {
+        table: table,
+      },
+    });
+
+    return order;
+  }
 }
 
 export { OrderRepository };

@@ -12,6 +12,14 @@ class CreateOrderService {
   async execute({ name, table }: ICreateOrderDTO) {
     const validateData = CreateOrderSchema.parse({ table });
 
+    const veryfiIfExitsTable = await this._CreateOrderRepository.findByTable(
+      table
+    );
+
+    if (veryfiIfExitsTable) {
+      throw new Error("Table already exists");
+    }
+
     if (!validateData) {
       throw new Error("Invalid data");
     }
