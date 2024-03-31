@@ -76,12 +76,29 @@ class OrderRepository {
       orderBy: {
         created_at: "desc",
       },
-      include: {
-        items: true,
+      select: {
+        id: true,
+        draft: true,
+        status: true,
+        table: true,
+        name: true,
       },
     });
 
     return orders;
+  }
+
+  async detail(id: string) {
+    const order = await prismaClient.item.findMany({
+      where: {
+        order_id: id,
+      },
+      include: {
+        product: true,
+      },
+    });
+
+    return order;
   }
 }
 
