@@ -1,4 +1,4 @@
-import { ICreateOrderDTO } from "../../DTO/OrderDTO";
+import { IAddItem, ICreateOrderDTO } from "../../DTO/OrderDTO";
 import prismaClient from "../../prisma";
 
 class OrderRepository {
@@ -27,6 +27,28 @@ class OrderRepository {
     const order = await prismaClient.order.findFirst({
       where: {
         table: table,
+      },
+    });
+
+    return order;
+  }
+
+  async addItem({ amount, order_id, product_id }: IAddItem) {
+    const order = await prismaClient.item.create({
+      data: {
+        order_id,
+        product_id,
+        amount,
+      },
+    });
+
+    return order;
+  }
+
+  async removeItem(item_id: string) {
+    const order = await prismaClient.item.delete({
+      where: {
+        id: item_id,
       },
     });
 

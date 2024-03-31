@@ -13,6 +13,8 @@ import { CreateProductController } from "./controllers/products/CreateProductCon
 import { ListProductByCategory } from "./controllers/products/ListProductByCategoryController";
 import { CreateOrderController } from "./controllers/order/CreateOrderController";
 import { RemoveOrderController } from "./controllers/order/RemoveOrderController";
+import { AddItemController } from "./controllers/order/AddItemController";
+import { RemoveItemController } from "./controllers/order/RemoveItemController";
 
 const router = Router();
 
@@ -44,5 +46,7 @@ router.get("/products", new ListProductByCategory().handle);
 
 router.post("/order", new CreateOrderController().handle);
 router.delete("/order", new RemoveOrderController().handle);
+router.post("/order/add", new AddItemController().handle);
+router.delete("/order/remove", new RemoveItemController().handle);
 
 export { router };
