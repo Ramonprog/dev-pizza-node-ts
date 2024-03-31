@@ -72,6 +72,7 @@ class OrderRepository {
     const orders = await prismaClient.order.findMany({
       where: {
         draft: false,
+        status: false,
       },
       orderBy: {
         created_at: "desc",
@@ -95,6 +96,20 @@ class OrderRepository {
       },
       include: {
         product: true,
+        order: true,
+      },
+    });
+
+    return order;
+  }
+
+  async finishOrder(order_id: string) {
+    const order = await prismaClient.order.update({
+      where: {
+        id: order_id,
+      },
+      data: {
+        status: true,
       },
     });
 
