@@ -11,6 +11,7 @@ import { CreateCategoryController } from "./controllers/category/CreateCategoryC
 import { ListCategoryController } from "./controllers/category/ListCategoryController";
 import { CreateProductController } from "./controllers/products/CreateProductController";
 import { ListProductByCategory } from "./controllers/products/ListProductByCategoryController";
+import { CreateOrderController } from "./controllers/order/CreateOrderController";
 
 const router = Router();
 
@@ -37,4 +38,9 @@ router.post(
 );
 
 router.get("/products", new ListProductByCategory().handle);
+
+// == order routes ==
+
+router.post("/order", new CreateOrderController().handle);
+
 export { router };
