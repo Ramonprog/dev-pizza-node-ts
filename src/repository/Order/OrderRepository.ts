@@ -1,4 +1,4 @@
-import { IAddItem, ICreateOrderDTO } from "../../DTO/OrderDTO";
+import { IAddItem, ICreateOrderDTO, ISendOrder } from "../../DTO/OrderDTO";
 import prismaClient from "../../prisma";
 
 class OrderRepository {
@@ -53,6 +53,19 @@ class OrderRepository {
     });
 
     return order;
+  }
+
+  async sendOrder({ order_id }: ISendOrder) {
+    const orderRequest = await prismaClient.order.update({
+      where: {
+        id: order_id,
+      },
+      data: {
+        draft: false,
+      },
+    });
+
+    return orderRequest;
   }
 }
 

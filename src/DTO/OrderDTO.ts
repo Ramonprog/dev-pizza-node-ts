@@ -8,3 +8,7 @@ export interface IAddItem {
   product_id: string;
   amount: number;
 }
+
+export interface ISendOrder {
+  order_id: string;
+}
